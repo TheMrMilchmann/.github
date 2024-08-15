@@ -1,0 +1,31 @@
+{
+    extends: [
+        "config:base",
+        ":semanticCommitTypeAll(chore)"
+    ],
+    labels: ["a:chore", "in:dependencies"],
+    enabledManagers: [
+        "gradle",
+        "gradle-wrapper"
+    ],
+    commitMessageExtra: "{ {{~#if isPinDigest}}{{{currentDigestShort}}}{{else}}{{#if currentValue}}{{{currentValue}}}{{else}}{{{currentDigestShort}}}{{/if}}{{/if}} => {{#if isPinDigest}}{{{newDigestShort}}}{{else}}{{#if newValue}}{{{newValue}}}{{else}}{{{newDigestShort}}}{{/if}}{{/if~}} }",
+    dependencyDashboard: false,
+    packageRules: [
+        {
+            description: "Update Gradle wrapper",
+            matchManagers: ["gradle-wrapper"],
+            addLabels: ["in:build"]
+        },
+        {
+            description: "Update build dependencies in build.versions.toml",
+            matchFileNames: ["gradle/build.versions.toml"],
+            addLabels: ["in:build"]
+        },
+        {
+            description: "Update library dependencies in libs.versions.toml",
+            matchFileNames: ["gradle/libs.versions.toml"]
+        }
+    ],
+    prHourlyLimit: 0,
+    prConcurrentLimit: 0
+}
