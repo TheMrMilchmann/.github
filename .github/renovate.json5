@@ -6,7 +6,8 @@
     labels: ["a:chore", "in:dependencies"],
     enabledManagers: [
         "gradle",
-        "gradle-wrapper"
+        "gradle-wrapper",
+        "npm"
     ],
     commitMessageExtra: "{ {{~#if isPinDigest}}{{{currentDigestShort}}}{{else}}{{#if currentValue}}{{{currentValue}}}{{else}}{{{currentDigestShort}}}{{/if}}{{/if}} => {{#if isPinDigest}}{{{newDigestShort}}}{{else}}{{#if newValue}}{{{newValue}}}{{else}}{{{newDigestShort}}}{{/if}}{{/if~}} }",
     dependencyDashboard: false,
@@ -24,6 +25,11 @@
         {
             description: "Update library dependencies in libs.versions.toml",
             matchFileNames: ["gradle/libs.versions.toml"]
+        },
+        {
+            description: "Update NPM build dependencies",
+            matchDepTypes: ["devDependencies", "engines", "packageManager"],
+            addLabels: ["in:build"]
         }
     ],
     prHourlyLimit: 0,
