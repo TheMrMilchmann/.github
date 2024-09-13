@@ -5,7 +5,6 @@
     ],
     labels: ["a:chore", "in:dependencies"],
     enabledManagers: [
-        "github-actions",
         "gradle",
         "gradle-wrapper",
         "npm"
@@ -13,11 +12,6 @@
     commitMessageExtra: "{ {{~#if isPinDigest}}{{{currentDigestShort}}}{{else}}{{#if currentValue}}{{{currentValue}}}{{else}}{{{currentDigestShort}}}{{/if}}{{/if}} => {{#if isPinDigest}}{{{newDigestShort}}}{{else}}{{#if newValue}}{{{newValue}}}{{else}}{{{newDigestShort}}}{{/if}}{{/if~}} }",
     dependencyDashboard: false,
     packageRules: [
-        {
-            description: "Update GitHub Actions dependencies",
-            matchManagers: ["github-actions"],
-            addLabels: ["in:build"]
-        },
         {
             description: "Update Gradle wrapper",
             matchManagers: ["gradle-wrapper"],
