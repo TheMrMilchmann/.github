@@ -15,12 +15,16 @@
         {
             description: "Update Gradle wrapper",
             matchManagers: ["gradle-wrapper"],
-            addLabels: ["in:build"]
+            addLabels: ["in:build"],
+            semanticCommitScope: null,
+            semanticCommitType: "build"
         },
         {
             description: "Update build dependencies in build.versions.toml",
             matchFileNames: ["gradle/build.versions.toml"],
-            addLabels: ["in:build"]
+            addLabels: ["in:build"],
+            semanticCommitScope: null,
+            semanticCommitType: "build"
         },
         {
             description: "Update library dependencies in libs.versions.toml",
@@ -29,7 +33,9 @@
         {
             description: "Update NPM build dependencies",
             matchDepTypes: ["devDependencies", "engines", "packageManager"],
-            addLabels: ["in:build"]
+            addLabels: ["in:build"],
+            semanticCommitScope: null,
+            semanticCommitType: "build"
         }
     ],
     prHourlyLimit: 0,
