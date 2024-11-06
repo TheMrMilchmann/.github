@@ -11,6 +11,9 @@
     ],
     commitMessageExtra: "{ {{~#if isPinDigest}}{{{currentDigestShort}}}{{else}}{{#if currentVersion}}{{{currentVersion}}}{{else}}{{{currentDigestShort}}}{{/if}}{{/if}} => {{#if isPinDigest}}{{{newDigestShort}}}{{else}}{{#if newVersion}}{{{newVersion}}}{{else}}{{{newDigestShort}}}{{/if}}{{/if~}} }",
     dependencyDashboard: false,
+    lockFileMaintenance: {
+        enabled: true
+    },
     packageRules: [
         {
             description: "Update Gradle wrapper",
