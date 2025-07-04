@@ -2,6 +2,7 @@
     extends: [
         "config:base",
         "group:monorepos",
+        "group:recommended",
         ":rebaseStalePrs",
         ":semanticCommitTypeAll(chore)"
     ],
