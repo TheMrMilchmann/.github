@@ -1,6 +1,7 @@
 {
     extends: [
         "config:base",
+        ":rebaseStalePrs",
         ":semanticCommitTypeAll(chore)"
     ],
     labels: ["a:chore", "in:dependencies"],
