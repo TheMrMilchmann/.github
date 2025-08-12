@@ -9,6 +9,7 @@
     ],
     labels: ["a:chore", "in:dependencies"],
     enabledManagers: [
+        "cargo",
         "custom.regex",
         "github-actions",
         "gradle",
