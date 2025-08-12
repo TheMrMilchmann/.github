@@ -9,13 +9,35 @@
     ],
     labels: ["a:chore", "in:dependencies"],
     enabledManagers: [
+        "custom.regex",
         "github-actions",
         "gradle",
         "gradle-wrapper",
-        "npm"
+        "npm",
+        "pip-compile"
     ],
     commitMessageExtra: "{ {{~#if isPinDigest}}{{{currentDigestShort}}}{{else}}{{#if currentVersion}}{{{currentVersion}}}{{else}}{{{currentDigestShort}}}{{/if}}{{/if}} => {{#if isPinDigest}}{{{newDigestShort}}}{{else}}{{#if newVersion}}{{{newVersion}}}{{else}}{{{newDigestShort}}}{{/if}}{{/if~}} }",
+    customManagers: [
+        // Update .java-version file with the latest JDK version
+        {
+            customType: "regex",
+            fileMatch: [
+                "\\.java-version$",
+            ],
+            matchStrings: [
+                "(?<currentValue>\\S+)",
+            ],
+            datasourceTemplate: "java-version",
+            depNameTemplate: "java",
+            // Only write the major version.
+            extractVersionTemplate: "^(?<version>\\d+)"
+        }
+    ],
     dependencyDashboard: false,
+    ignorePresets: [
+        // Ensure we get the latest version and are not pinned to old versions.
+        'workarounds:javaLTSVersions'
+    ],
     lockFileMaintenance: {
         enabled: true
     },
@@ -46,9 +68,23 @@
             semanticCommitType: "build"
         },
         {
+            description: "Update CI Java version",
+            matchFileNames: ["\\.java-version$"],
+            addLabels: ["in:build"],
+            semanticCommitScope: null,
+            semanticCommitType: "build"
+        },
+        {
             description: "Update GitHub Actions",
             matchManagers: ["github-actions"],
             addLabels: ["in:build"],
+            semanticCommitScope: null,
+            semanticCommitType: "build"
+        },
+        {
+            description: "Update documentation dependencies",
+            matchManagers: ["pip-compile"],
+            addLabels: ["in:build", "in:docs"],
             semanticCommitScope: null,
             semanticCommitType: "build"
         }
@@ -58,5 +94,8 @@
     vulnerabilityAlerts: {
         enabled: true,
         vulnerabilityFixStrategy: "highest"
+    },
+    "pip-compile": {
+        fileMatch: ["(^|/)mkdocs-requirements\\.txt$"]
     }
 }
