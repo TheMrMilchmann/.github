@@ -3,11 +3,13 @@
         "config:base",
         "group:monorepos",
         "group:recommended",
+        "helpers:pinGitHubActionDigests",
         ":rebaseStalePrs",
         ":semanticCommitTypeAll(chore)"
     ],
     labels: ["a:chore", "in:dependencies"],
     enabledManagers: [
+        "github-actions",
         "gradle",
         "gradle-wrapper",
         "npm"
@@ -39,6 +41,13 @@
         {
             description: "Update NPM build dependencies",
             matchDepTypes: ["devDependencies", "engines", "packageManager"],
+            addLabels: ["in:build"],
+            semanticCommitScope: null,
+            semanticCommitType: "build"
+        },
+        {
+            description: "Update GitHub Actions",
+            matchManagers: ["github-actions"],
             addLabels: ["in:build"],
             semanticCommitScope: null,
             semanticCommitType: "build"
