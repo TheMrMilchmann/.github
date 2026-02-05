@@ -1,4 +1,5 @@
 {
+    $schema: "https://docs.renovatebot.com/renovate-schema.json",
     extends: [
         "config:base",
         "group:monorepos",
@@ -8,12 +9,17 @@
         ":semanticCommitTypeAll(chore)"
     ],
     labels: ["a:chore", "in:dependencies"],
+    baseBranchPatterns: [
+        "$default",
+        "/^release\\/.*/"
+    ],
     enabledManagers: [
         "cargo",
         "custom.regex",
         "github-actions",
         "gradle",
         "gradle-wrapper",
+        "nix",
         "npm",
         "pip-compile"
     ],
@@ -23,10 +29,10 @@
         {
             customType: "regex",
             fileMatch: [
-                "\\.java-version$",
+                "\\.java-version$"
             ],
             matchStrings: [
-                "(?<currentValue>\\S+)",
+                "(?<currentValue>\\S+)"
             ],
             datasourceTemplate: "java-version",
             depNameTemplate: "java",
@@ -44,6 +50,11 @@
     },
     packageRules: [
         {
+            matchBaseBranches: ["/^release/.*/"],
+            matchUpdateTypes: ["major"],
+            enabled: false
+        },
+        {
             description: "Update Gradle wrapper",
             matchManagers: ["gradle-wrapper"],
             addLabels: ["in:build"],
@@ -51,11 +62,25 @@
             semanticCommitType: "build"
         },
         {
+            description: "Update Gradle wrapper",
+            matchManagers: ["gradle-wrapper"],
+            matchBaseBranches: ["/^release/.*/"],
+            matchUpdateTypes: ["major"],
+            enabled: true
+        },
+        {
             description: "Update build dependencies in build.versions.toml",
             matchFileNames: ["gradle/build.versions.toml"],
             addLabels: ["in:build"],
             semanticCommitScope: null,
             semanticCommitType: "build"
+        },
+        {
+            description: "Enable major updates for build dependencies in build.versions.toml",
+            matchFileNames: ["gradle/build.versions.toml"],
+            matchBaseBranches: ["/^release/.*/"],
+            matchUpdateTypes: ["major"],
+            enabled: true
         },
         {
             description: "Update library dependencies in libs.versions.toml",
@@ -69,11 +94,25 @@
             semanticCommitType: "build"
         },
         {
+            description: "Enable major updates for NPM build dependencies",
+            matchDepTypes: ["devDependencies", "engines", "packageManager"],
+            matchBaseBranches: ["/^release/.*/"],
+            matchUpdateTypes: ["major"],
+            enabled: true
+        },
+        {
             description: "Update CI Java version",
             matchFileNames: ["\\.java-version$"],
             addLabels: ["in:build"],
             semanticCommitScope: null,
             semanticCommitType: "build"
+        },
+        {
+            description: "Enable major updates for CI Java version",
+            matchFileNames: ["\\.java-version$"],
+            matchBaseBranches: ["/^release/.*/"],
+            matchUpdateTypes: ["major"],
+            enabled: true
         },
         {
             description: "Update GitHub Actions",
@@ -83,15 +122,37 @@
             semanticCommitType: "build"
         },
         {
+            description: "Enable major updates for GitHub Actions",
+            matchManagers: ["github-actions"],
+            matchBaseBranches: ["/^release/.*/"],
+            matchUpdateTypes: ["major"],
+            enabled: true
+        },
+        {
             description: "Update documentation dependencies",
             matchManagers: ["pip-compile"],
             addLabels: ["in:build", "in:docs"],
             semanticCommitScope: null,
             semanticCommitType: "build"
+        },
+        {
+            description: "Enable major updates for documentation dependencies",
+            matchManagers: ["pip-compile"],
+            matchBaseBranches: ["/^release/.*/"],
+            matchUpdateTypes: ["major"],
+            enabled: true
+        },
+        {
+            "description": "Group Kotlin specific dependencies",
+            "groupName": "Kotlin",
+            "matchPackagePrefixes": [
+                "org.jetbrains.kotlin"
+            ]
         }
     ],
     prHourlyLimit: 0,
     prConcurrentLimit: 0,
+    useBaseBranchConfig: "merge",
     vulnerabilityAlerts: {
         enabled: true,
         vulnerabilityFixStrategy: "highest"
