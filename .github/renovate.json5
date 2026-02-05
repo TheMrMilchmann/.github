@@ -145,8 +145,8 @@
         {
             "description": "Group Kotlin specific dependencies",
             "groupName": "Kotlin",
-            "matchPackagePrefixes": [
-                "org.jetbrains.kotlin"
+            "matchPackageNames": [
+                "/^org\\.jetbrains\\.kotlin(?!x)/"
             ]
         }
     ],
